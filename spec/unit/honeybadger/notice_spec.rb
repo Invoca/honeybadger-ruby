@@ -623,7 +623,7 @@ describe Honeybadger::Notice do
   end
 
   describe "#local_variables", order: :defined do
-    let(:notice) { build_notice(exception: exception, config: config) }
+    let(:notice) { build_notice(exception: exception, config: config, callbacks: callbacks) }
     let(:mock_binding) { @mock_binding }
     let(:exception) do
       foo = 'bar'
@@ -677,6 +677,11 @@ describe Honeybadger::Notice do
 
         it "finds the local variables from first frame of trace" do
           expect(notice.local_variables[:foo]).to eq 'bar'
+        end
+
+        it "filter can alter the local variable value" do
+          callbacks.local_variable_filter {|symbol, object, filter_keys| "#{object}-filtered" }
+          expect(notice.local_variables[:foo]).to eq 'bar-filtered'
         end
 
         context "with an application trace" do

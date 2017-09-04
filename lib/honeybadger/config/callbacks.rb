@@ -1,12 +1,13 @@
 module Honeybadger
   class Config
     class Callbacks
-      attr_reader :backtrace_filter, :exception_filter, :exception_fingerprint
+      attr_reader :backtrace_filter, :exception_filter, :exception_fingerprint, :local_variable_filter
 
       def initialize
         @backtrace_filter = nil
         @exception_filter = nil
         @exception_fingerprint = nil
+        @local_variable_filter = nil
       end
 
       # Public: Takes a block and adds it to the list of backtrace filters. When
@@ -64,6 +65,29 @@ module Honeybadger
       def exception_fingerprint
         @exception_fingerprint = Proc.new if block_given?
         @exception_fingerprint
+      end
+
+      # Public: Takes a block and adds it to the list of local variable filters. When
+      # the filters run, the block will be handed the local variable object and symbol.
+      #
+      # &block - The new local variable filter
+      #          The value returned by the block will be logged as the value for the local variable.
+      #
+      # Examples:
+      #
+      #   # Redacting a local variable
+      #   Honeybadger.local_variable_filter do |symbol, object, filter_keys|
+      #     if object.is_a?(MyPoro)
+      #       object.inspect unless object.inspect ~= /password/
+      #     else
+      #       value
+      #     end
+      #   end
+      #
+      # Yields the filtered value of the local variable
+      def local_variable_filter(&block)
+        @local_variable_filter = Proc.new if block_given?
+        @local_variable_filter
       end
     end
   end

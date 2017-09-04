@@ -147,6 +147,12 @@ describe Honeybadger::Agent do
       end
     end
 
+    describe "::local_variable_filter" do
+      it "configures the local_variable_filter callback" do
+        expect { described_class.local_variable_filter(&NULL_BLOCK) }.to change(described_class.callbacks, :local_variable_filter).from(nil).to(NULL_BLOCK)
+      end
+    end
+
     describe "::start" do
       let(:config) { Honeybadger::Config.new(logger: NULL_LOGGER) }
       let(:logger) { config.logger }

@@ -144,6 +144,28 @@ module Honeybadger
     Agent.backtrace_filter(&block)
   end
 
+  # Public: Callback to filter local variables.
+  #
+  # See public API documentation for Honeybadger::Notice for available attributes.
+  #
+  # block - A block returning the filtered value of the local variable.
+  #
+  # Examples:
+  #
+  #   # Redacting a local variable
+  #   Honeybadger.local_variable_filter do |symbol, object, filter_keys|
+  #     if object.is_a?(MyPoro)
+  #       object.inspect unless object.inspect ~= /password/
+  #     else
+  #       value
+  #     end
+  #   end
+  #
+  # Returns nothing.
+  def local_variable_filter(&block)
+    Agent.local_variable_filter(&block)
+  end
+
   # Public: Save global context for the current request.
   #
   # hash - A Hash of data which will be sent to Honeybadger when an error

@@ -19,7 +19,7 @@ module Honeybadger
     class << self
       extend Forwardable
 
-      def_delegators :callbacks, :exception_filter, :exception_fingerprint, :backtrace_filter
+      def_delegators :callbacks, :exception_filter, :exception_fingerprint, :backtrace_filter, :local_variable_filter
 
       def callbacks
         @callbacks ||= Config::Callbacks.new

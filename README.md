@@ -363,6 +363,29 @@ end
 ```
 __WARNING:__ While it is possible to use this callback to modify the data that is reported to Honeybadger, this is not officially supported and may not be allowed in future versions of the gem.
 
+### `Honeybadger.local_variable_filter()`: Programmatically filter local variable data
+
+This method lets you add a callback that will be run for each local variable that is about to be reported to Honeybadger. The value returned by your callback will be logged with the exception.
+
+#### Use this method if:
+
+* You need to filter local variables that meet complex criteria
+* The built-in configuration options for filter keys aren't enough
+* You want to augment the local variable data
+
+#### Examples:
+
+```ruby
+# Redacting a local variable because it contains a password attribute
+Honeybadger.local_variable_filter do |symbol, object, filter_keys|
+  if object.is_a?(MyPoro)
+    object.inspect unless object.inspect ~= /password/
+  else
+    value
+  end
+end
+```
+
 
 ## Deployment Tracking 
 

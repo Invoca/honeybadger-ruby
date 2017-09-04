@@ -26,6 +26,7 @@ describe Honeybadger do
       exception_filter: nil,
       exception_fingerprint: nil,
       backtrace_filter: nil,
+      local_variable_filter: nil,
       flush: nil
     }
 
