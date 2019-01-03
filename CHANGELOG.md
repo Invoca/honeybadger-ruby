@@ -5,6 +5,10 @@ adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.3.1-2] - 2018-08-31
+### Added
+- Added flag `--skip-rails-load` to cli commands for optionally skipping Rails initialization when running from a Rails root.
+
 ## [3.3.1-1] - 2018-08-23
 ### Added
 - Local variable filter callback for filtering or augmenting local variables before they are logged.
